@@ -336,7 +336,7 @@ app.MapPost("/internal/demo/issue", async (DemoIssueRequest body, HttpRequest re
         new Dictionary<string, string>());
 
     var (certificate, _) = await repository.GetOrCreateAsync(submission, eventOptions, ct);
-    var artifact = await artifacts.CreateAsync(certificate, ct);
+    var artifact = await artifacts.CreateAsync(certificate, body.Layout, ct);
     await repository.MarkIssuedAsync(certificate.Id, artifact.ArtifactPath, artifact.Sha256, artifact.SignerThumbprint, eventOptions, ct);
     return Results.Created($"/verify/{certificate.PublicId}", new { certificate.PublicId, certificate.CertificateNumber, verifyPath = $"/verify/{certificate.PublicId}" });
 });
@@ -380,7 +380,7 @@ app.MapPost("/internal/issue/batch", async (BatchIssueRequest body, HttpRequest 
                 new Dictionary<string, string>());
 
             var (certificate, _) = await repository.GetOrCreateAsync(submission, eventOptions, ct);
-            var artifact = await artifacts.CreateAsync(certificate, ct);
+            var artifact = await artifacts.CreateAsync(certificate, body.Layout, ct);
             await repository.MarkIssuedAsync(certificate.Id, artifact.ArtifactPath, artifact.Sha256, artifact.SignerThumbprint, eventOptions, ct);
             results.Add(new
             {

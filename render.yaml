@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: certificate-engine
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: singapore
+    envVars:
+      - key: Platform__OrganizationName
+        value: Clinically Evolve Foundation
+      - key: Platform__InternalApiKey
+        value: local-testing-key-change-before-production-2026
+      - key: Platform__PublicBaseUrl
+        value: https://your-app.vercel.app
+      - key: Signing__PfxPassword
+        value: SigningPassword123!
